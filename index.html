@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sir Doggo Shop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Sir Doggo Shop</h1>
+  <div class="cart-icon" onclick="toggleCart()">
+    🛒 <span class="cart-count" id="cartCount">0</span>
+  </div>
+</header>
+
+  <section class="hero">
+    <h2>Welcome to the Sir Doggo Shop!</h2>
+    <p>Buy items and get them in the Sir Doggo Server!</p>
+  </section>
+
+  <div class="filter-buttons">
+    <button onclick="filterItems('diamonds')">Diamonds</button>
+    <button onclick="filterItems('iron')">Iron</button>
+    <button onclick="filterItems('deal')">Your Own Deal</button>
+    <button onclick="filterItems('food')">Food</button>
+    <button onclick="filterItems('other')">Other</button>
+  </div>
+
+  <main class="shop-items" id="shopItems">
+    <div class="item" data-category="diamonds">
+      <img src="https://static.wikia.nocookie.net/minecraft/images/3/30/EnderPearl.png/revision/latest/scale-to-width/360?cb=20190908173114" alt="Ender Pearl">
+      <h3>Ender Pearl</h3>
+      <p>5 Diamonds</p>
+      <div class="buy-button" onclick="addToCart('Ender Pearl', '5 Diamonds')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="food">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/08/Magma_Cream_JE3_BE2.png" alt="Magma Cream">
+      <h3>Magma Cream</h3>
+      <p>40–50 Bread</p>
+      <div class="buy-button" onclick="addToCart('Magma Cream', '40–50 Bread')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="diamonds">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/aa/Golden_Carrot_JE4_BE2.png" alt="Golden Carrot">
+      <h3>Golden Carrot</h3>
+      <p>2 Diamonds</p>
+      <div class="buy-button" onclick="addToCart('Golden Carrot', '2 Diamonds')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="food">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3f/Nether_Wart_%28item%29_JE2_BE1.png" alt="Nether Wart">
+      <h3>Nether Wart</h3>
+      <p>20–30 Bread</p>
+      <div class="buy-button" onclick="addToCart('Nether Wart', '20–30 Bread')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="deal">
+      <img src="https://static.wikia.nocookie.net/minecraftpocketedition/images/7/73/Brown_Mushroom.png" alt="Brown Mushroom">
+      <h3>Mushroom (Brown/Red)</h3>
+      <p>Custom Deal made in-game</p>
+      <div class="buy-button" onclick="addToCart('Mushroom', 'Custom Deal')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="food">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e1/Redstone_Dust_JE2_BE2.png" alt="Redstone">
+      <h3>Redstone</h3>
+      <p>Any 32 Food Items</p>
+      <div class="buy-button" onclick="addToCart('Redstone', '32 Food Items')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="food">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/fc/Iron_Ingot_JE3_BE2.png" alt="Iron">
+      <h3>Iron</h3>
+      <p>Any 50 Food Items</p>
+      <div class="buy-button" onclick="addToCart('Iron', '50 Food Items')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="iron">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/26/Emerald_JE3_BE3.png" alt="Emerald">
+      <h3>Emerald</h3>
+      <p>50 Iron</p>
+      <div class="buy-button" onclick="addToCart('Emerald', '50 Iron')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="other">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/ab/Diamond_JE3_BE3.png" alt="Diamond">
+      <h3>Diamonds</h3>
+      <p>Any 10 Potion Materials</p>
+      <div class="buy-button" onclick="addToCart('Diamonds', '10 Potion Materials')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="diamonds">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c4/Breeze_Rod.png" alt="Breeze Rod">
+      <h3>Breeze Rods</h3>
+      <p>1 Diamond</p>
+      <div class="buy-button" onclick="addToCart('Breeze Rods', '1 Diamond')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="diamonds">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/5a/Ominous_Bottle_JE1_BE1.png" alt="Ominous Bottle">
+      <h3>Ominous Bottle</h3>
+      <p>1 Diamond</p>
+      <div class="buy-button" onclick="addToCart('Ominous Bottle', '1 Diamond')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="iron">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/2/25/Glowstone_Dust_JE2_BE2.png" alt="Glowstone Dust">
+      <h3>Glowstone Dust</h3>
+      <p>5 Iron</p>
+      <div class="buy-button" onclick="addToCart('Glowstone Dust', '5 Iron')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="iron">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/8a/Gold_Ingot_JE4_BE2.png" alt="Gold Ingot">
+      <h3>Gold</h3>
+      <p>32 Iron</p>
+      <div class="buy-button" onclick="addToCart('Gold', '32 Iron')">Add to Cart</div>
+    </div>
+
+    <div class="item" data-category="iron">
+      <img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png" alt="Oak Planks">
+      <h3>Oak Planks</h3>
+      <p>5 Iron</p>
+      <div class="buy-button" onclick="addToCart('Oak Planks', '5 Iron')">Add to Cart</div>
+    </div>
+  </main>
+
+  <div id="cartModal">
+    <div class="cart-content">
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <div class="cart-buttons">
+        <button class="action-button" onclick="clearCart()">Clear Cart</button>
+        <button class="action-button" onclick="toggleCart()">Close</button>
+        <button onclick="goToCheckout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

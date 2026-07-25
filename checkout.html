@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sir Doggo Shop - Checkout</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background: #121212; color: #ffffff; font-family: sans-serif;">
+
+  <header style="padding: 20px; text-align: center;">
+    <h1>Sir Doggo Shop</h1>
+  </header>
+
+  <section class="hero" style="text-align: center; margin-bottom: 20px;">
+    <h2>Checkout</h2>
+    <p>Review your items and complete your purchase.</p>
+  </section>
+
+  <main class="cart-content" style="max-width: 600px; margin: 0 auto; padding: 20px; background: #1e1e1e; border-radius: 12px;">
+    <h2>Your Items</h2>
+    <div id="checkoutItems" style="margin-bottom: 20px;"></div>
+    <p><strong>Total Trade Value:</strong><br><span id="checkoutTotal"></span></p>
+
+    <label for="username" style="display: block; margin-top: 20px;">Minecraft Username / Xbox Gamertag:</label>
+    <input type="text" id="username" placeholder="Enter your username" style="width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 16px; border: none; border-radius: 6px;">
+
+    <button id="finalCheckout" class="buy-button" disabled onclick="checkout()" style="background: #00cc66; color: white; padding: 12px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Submit Trade</button>
+  </main>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCheckout() {
+      const itemsDiv = document.getElementById('checkoutItems');
+      const totalSpan = document.getElementById('checkoutTotal');
+      const materialTotals = {};
+
+      itemsDiv.innerHTML = '';
+
+      cart.forEach(item => {
+        itemsDiv.innerHTML += `<div style="margin-bottom: 6px;">${item.quantity}× ${item.name} — ${item.price}</div>`;
+
+        const match = item.price.match(/^([\d\-–]+)\s+(.*)$/i);
+        if (!match) return;
+
+        const amount = match[1];
+        const material = match[2].trim().toLowerCase();
+
+        if (!materialTotals[material]) materialTotals[material] = [];
+
+        for (let i = 0; i < item.quantity; i++) {
+          materialTotals[material].push(amount);
+        }
+      });
+
+      const summaryLines = Object.entries(materialTotals).map(([material, amounts]) => {
+        const flat = amounts.flatMap(a => {
+          const range = a.split(/[-–]/).map(s => parseInt(s.trim()));
+          return range.length === 1 ? [range[0], range[0]] : range;
+        });
+
+        const totalMin = flat.filter((_, i) => i % 2 === 0).reduce((sum, n) => sum + (isNaN(n) ? 0 : n), 0);
+        const totalMax = flat.filter((_, i) => i % 2 === 1).reduce((sum, n) => sum + (isNaN(n) ? 0 : n), 0);
+
+        const readableMaterial = capitalizeWords(material);
+
+        return totalMax && totalMax !== totalMin
+          ? `${readableMaterial}: ${totalMin}–${totalMax}`
+          : `${readableMaterial}: ${totalMin}`;
+      });
+
+      totalSpan.innerHTML = summaryLines.join('<br>');
+    }
+
+    function capitalizeWords(str) {
+      return str.replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    document.getElementById('username').addEventListener('input', function () {
+      document.getElementById('finalCheckout').disabled = !this.value.trim();
+    });
+
+function checkout() {
+  const username = document.getElementById('username').value.trim();
+  const orderId = Math.floor(100000 + Math.random() * 900000);
+  let diamonds = 0, iron = 0, other = 0, own = 0;
+  const itemLines = [];
+
+  cart.forEach(item => {
+    const quantity = item.quantity || 1;
+    const price = item.price.toLowerCase();
+    const name = item.name;
+
+    itemLines.push(`${quantity}× ${name} — ${item.price}`);
+
+    if (price.includes("diamond")) {
+      diamonds += quantity;
+    } else if (price.includes("iron")) {
+      iron += quantity;
+    } else if (price.includes("custom") || price.includes("deal")) {
+      own += quantity;
+    } else {
+      other += quantity;
+    }
+  });
+
+  let totalsText = `💎 Diamonds: ${diamonds}\n⛓️ Iron: ${iron}\n🧾 Own Deal: ${own}\n📦 Other: ${other}`;
+
+  const message = `🛒 New Order
+🧑 User: ${username}
+🧾 Order ID: ${orderId}
+📦 Items:
+${itemLines.join("\n")}
+
+🔢 Totals:
+${totalsText}`;
+
+  fetch("https://discord.com/api/webhooks/1394020557099634827/vtjfagfKxdta7MVID_p85Wl_0jk9hHnyGsl_QfiZKLMIhKueWoTp2WRLoi11T7Bv-QZk", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: message })
+  }).then(() => {
+    alert("Thank you for your purchase, " + username + "!");
+    localStorage.removeItem('cart');
+    window.location.href = "index.html";
+  }).catch(error => {
+    console.error("Discord Webhook failed:", error);
+    alert("Error sending order. Please try again.");
+  });
+}
+
+    renderCheckout();
+  </script>
+</body>
+</html>
