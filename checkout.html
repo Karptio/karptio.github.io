@@ -116,19 +116,26 @@ ${itemLines.join("\n")}
 🔢 Totals:
 ${totalsText}`;
 
-  fetch("https://discord.com/api/webhooks/1394020557099634827/vtjfagfKxdta7MVID_p85Wl_0jk9hHnyGsl_QfiZKLMIhKueWoTp2WRLoi11T7Bv-QZk", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content: message })
-  }).then(() => {
-    alert("Thank you for your purchase, " + username + "!");
-    localStorage.removeItem('cart');
-    window.location.href = "index.html";
-  }).catch(error => {
-    console.error("Discord Webhook failed:", error);
-    alert("Error sending order. Please try again.");
-  });
-}
+ fetch("https://sir-doggo-checkout.ebbsadeek.workers.dev/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    username: username,
+    orderId: orderId,
+    items: itemLines.join("\n")
+  })
+})
+.then(() => {
+  alert("Thank you for your purchase, " + username + "!");
+  localStorage.removeItem('cart');
+  window.location.href = "index.html";
+})
+.catch(error => {
+  console.error("Order submission failed:", error);
+  alert("Error sending order. Please try again.");
+});
 
     renderCheckout();
   </script>
