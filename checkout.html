@@ -131,11 +131,12 @@ ${totalsText}`;
   headers: {
     "Content-Type": "application/json"
   },
-  body: JSON.stringify({
-    username: username,
-    orderId: orderId,
-    items: itemLines.join("\n")
-  })
+body: JSON.stringify({
+  username: username,
+  orderId: orderId,
+  items: itemLines.join("\n"),
+  email: email
+})
 })
 .then(() => {
   alert("Order sent!");
