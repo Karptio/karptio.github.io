@@ -128,9 +128,7 @@ ${totalsText}`;
   })
 })
 .then(() => {
-  alert("Thank you for your purchase, " + username + "!");
-  localStorage.removeItem('cart');
-  window.location.href = "index.html";
+  alert("Order sent!");
 })
 .catch(error => {
   console.error("Order submission failed:", error);
